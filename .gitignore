@@ -25,3 +25,5 @@ Thumbs.db
 .env
 /vendor
 /node_modules
+*.save
+*.save.*
