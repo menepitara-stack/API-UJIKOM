@@ -1,0 +1,38 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: api-ujikom-app
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - mysql-server
+    networks:
+      - ujikom-network
+
+  mysql-server:
+    image: mysql:8.0
+    container_name: api-ujikom-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: API_ujikom
+      MYSQL_USER: api_ujikom
+      MYSQL_PASSWORD: api_ujikom
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - ujikom-dbdata:/var/lib/mysql
+    networks:
+      - ujikom-network
+
+networks:
+  ujikom-network:
+    driver: bridge
+
+volumes:
+  ujikom-dbdata:
